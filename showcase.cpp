@@ -12,6 +12,7 @@ typedef struct {
 
 Digit digits[TOTAL_DIGITS];
 
+//segment for the digits
 static uint8_t num[10] = {
   //GFEDCBA
   B00111111,
@@ -46,7 +47,7 @@ static void inline handle
 }
 
 ISR(TIMER2_COMPA_vect){
-  handle(&TCNT2, &OCR2A);
+  handle(&TCNT2, &OCR2A); //allows code reuse
 }
 
 void setup(){
@@ -64,14 +65,12 @@ void setup(){
   TCCR2B = (1 << CS21);//8 prescaler
   TCNT2 = 0;//initialize counter value to 0
   OCR2A = 10; //default value
-  TIMSK2 |= (1 << OCIE2A);
+  TIMSK2 |= (1 << OCIE2A); //allow interrupts to happen
   digitalWrite(11, 0);
   digitalWrite(12, 0);
   digitalWrite(13, 0);
   
   sei();
-  
-  //digitalWrite(10, HIGH);
 }
 
 int value = 0;
